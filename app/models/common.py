@@ -1,14 +1,20 @@
-from sqlalchemy import Column, Boolean, Integer, String , DateTime, func
+from beanie import Document
+from pydantic import BaseModel, Field
+from datetime import datetime
 import uuid
-from app.core.database import Base
 
+def get_current_datetime():
+    return datetime.now()
 
-class CommonModel(Base):
-    __abstract__ = True
+class CommonModel(Document):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
+    is_active: bool = Field(default=True)
+    created_at: datetime = Field(default_factory=get_current_datetime)
+    updated_at: datetime = Field(default_factory=get_current_datetime)
 
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()), index=True)
-    # id = Column(Integer, primary_key=True, index=True)
-    is_active = Column(Boolean, default=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+    class Settings:
+        use_state_management = True
 
+    def save(self, **kwargs):
+        self.updated_at = get_current_datetime()
+        return super().save(**kwargs)
