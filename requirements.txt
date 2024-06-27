@@ -1,0 +1,11 @@
+fastapi
+pydantic
+pydantic_core
+python-jose
+python-multipart
+starlette
+uvicorn
+pymongo[srv]
+pydantic_settings
+beanie
+motor
