@@ -36,6 +36,10 @@ class CommonModel(Document):
         use_state_management = True
         state_management_update_strategy = "ALWAYS"
 
+    def save(self, **kwargs):
+        self.updated_at = datetime.utcnow()
+        return super().save(**kwargs)
+
     class Config:
         orm_mode = True
 
