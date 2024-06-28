@@ -43,16 +43,14 @@ async def read_all_user():
     users = await UserModel.User.find_all().to_list()
     return users
 
-# # update user
-# def update_user(db: Session, user_id: int, user: UserUpdate):
-#     db_user = get_user_by_id(db, user_id)
-#     updated_data = user.model_dump(exclude_unset=True) # partial update
-#     for key, value in updated_data.items():
-#         setattr(db_user, key, value)
-#     db.add(db_user)
-#     db.commit()
-#     db.refresh(db_user)
-#     return db_user
+# update user
+async def update_user(user_id: str, user: UserUpdate):
+    db_user = await get_user_by_id(user_id)
+    updated_data = user.model_dump(exclude_unset=True) # partial update
+    for key, value in updated_data.items():
+        setattr(db_user, key, value)
+    await db_user.save()
+    return db_user
 
 # delete user
 async def delete_user(user_id: str):
