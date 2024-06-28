@@ -21,8 +21,8 @@ async def get_user_by_email(email: str):
     return await UserModel.User.find_one(UserModel.User.email == email)
 
 # get user by id
-def get_user_by_id(user_id: str):
-    db_user = UserModel.User.find_one(UserModel.User.id == user_id)
+async def get_user_by_id(user_id: str):
+    db_user = await UserModel.User.find_one(UserModel.User.id == user_id)
     # print('==========================>', db_user)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -54,13 +54,11 @@ async def read_all_user():
 #     db.refresh(db_user)
 #     return db_user
 
-# # delete user
-# def delete_user(db: Session, user_id: str):
-#     db_user = get_user_by_id(db, user_id)
-#     db.delete(db_user)
-#     db.commit()
-#     # db.refresh(db_user)
-#     return {"msg": f"{db_user.email} deleted successfully"}
+# delete user
+async def delete_user(user_id: str):
+    db_user = await get_user_by_id( user_id)
+    await db_user.delete()
+    return {"msg": f"{db_user.email} deleted successfully"}
 
 # # =====================> login/logout <============================
 def verify_password(plain_password, hashed_password):

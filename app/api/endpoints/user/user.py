@@ -46,14 +46,14 @@ async def read_user_by_id( user_id: str):
 #     print(f"Received data: {user.model_dump()}")
 #     return user_functions.update_user(db, user_id, user)
 
-# # delete user
-# @user_module.delete('/{user_id}', 
-#             #    response_model=User,
-#             #    dependencies=[Depends(RoleChecker(['admin']))]
-#                )
-# async def delete_user( user_id: str, db: Session = Depends(get_db)):
-#     deleted_user = user_functions.delete_user(db, user_id)
+# delete user
+@user_module.delete('/{user_id}', 
+            #    response_model=User,
+            #    dependencies=[Depends(RoleChecker(['admin']))]
+               )
+async def delete_user( user_id: str):
+    deleted_user = await user_functions.delete_user(user_id)
     
-#     return deleted_user
+    return deleted_user
 
 
