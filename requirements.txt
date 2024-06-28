@@ -9,3 +9,4 @@ pymongo[srv]
 pydantic_settings
 beanie
 motor
+python-dotenv
