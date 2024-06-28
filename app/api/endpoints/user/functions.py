@@ -16,9 +16,10 @@ from app.schemas.user import UserCreate, UserUpdate, User
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# # get user by email 
-# def get_user_by_email(db: Session, email: str):
-#     return db.query(UserModel.User).filter(UserModel.User.email == email).first()
+# get user by email 
+async def get_user_by_email(email: str):
+    # UserModel.User.find_one(UserModel.User.email == email)
+    return UserModel.User.find_one(UserModel.User.email == email)
 
 # # get user by id
 # def get_user_by_id(db: Session, user_id: int):

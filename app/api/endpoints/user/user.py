@@ -1,11 +1,7 @@
 # fastapi 
 from fastapi import APIRouter, Depends, HTTPException
 
-# sqlalchemy
-# from sqlalchemy.orm import Session
-
-# import
-# from app.core.dependencies import get_db, oauth2_scheme 
+# import 
 from app.schemas.user import User, UserCreate, UserUpdate
 from app.api.endpoints.user import functions as user_functions
 from app.models import user as UserModel
@@ -16,18 +12,9 @@ user_module = APIRouter()
 # async def read_auth_page():
 #     return {"msg": "Auth page Initialization done"}
 
-# create new user 
-# @user_module.post('/', response_model=User)
-# async def create_new_user(user: UserCreate):
-#     # db_user = user_functions.get_user_by_email(db, user.email)
-#     # if db_user:
-#     #     raise HTTPException(status_code=400, detail="User already exists")
-#     new_user = await user_functions.create_new_user(user)
-#     return new_user
-
 @user_module.post('/', response_model=User)
 async def create_new_user(user: UserCreate):
-    existing_user = await User.find_one(User.email == user.email)
+    existing_user = await user_functions.get_user_by_email(user.email)
     if existing_user:
         raise HTTPException(status_code=400, detail="User already exists")
     
