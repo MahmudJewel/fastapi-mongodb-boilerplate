@@ -10,7 +10,7 @@ from passlib.context import CryptContext
 
 # # import 
 from app.models import user as UserModel
-from app.schemas.user import UserCreate, UserUpdate
+from app.schemas.user import UserCreate, UserUpdate, User
 # from app.core.settings import SECRET_KEY, ALGORITHM
 # from app.core.dependencies import get_db, oauth2_scheme
 
@@ -28,16 +28,13 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 #     return db_user
 
 # crete new user 
-def create_new_user(user: UserCreate):
+async def create_new_user(user: UserCreate):
     hashed_password = pwd_context.hash(user.password)
     new_user = UserModel.User(email=user.email, password=hashed_password, first_name=user.first_name, last_name=user.last_name)
-    # user_doc = User(**user.model_dump())
-    # await user_doc.insert()
-    return user
-    # db.add(new_user)
-    # db.commit()
-    # db.refresh(new_user)
-    # return new_user
+    # new_user = UserModel.User(**user.model_dump())
+    await new_user.insert()
+    return new_user
+    
 
 
 # get all user 
