@@ -11,27 +11,26 @@ from app.api.endpoints.user import functions as user_functions
 
 user_module = APIRouter()
 
+# @user_module.get('/')
+# async def read_auth_page():
+#     return {"msg": "Auth page Initialization done"}
 
-@user_module.get('/')
-async def read_auth_page():
-    return {"msg": "Auth page Initialization done"}
+# create new user 
+@user_module.post('/', response_model=User)
+async def create_new_user(user: UserCreate):
+    # db_user = user_functions.get_user_by_email(db, user.email)
+    # if db_user:
+    #     raise HTTPException(status_code=400, detail="User already exists")
+    new_user = user_functions.create_new_user(user)
+    return new_user
 
-# # create new user 
-# @user_module.post('/', response_model=User)
-# async def create_new_user(user: UserCreate, db: Session = Depends(get_db)):
-#     db_user = user_functions.get_user_by_email(db, user.email)
-#     if db_user:
-#         raise HTTPException(status_code=400, detail="User already exists")
-#     new_user = user_functions.create_new_user(db, user)
-#     return new_user
-
-# # get all user 
-# @user_module.get('/', 
-#             response_model=list[User],
-#             # dependencies=[Depends(RoleChecker(['admin']))]
-#             )
-# async def read_all_user( skip: int = 0, limit: int = 100,  db: Session = Depends(get_db)):
-#     return user_functions.read_all_user(db, skip, limit)
+# get all user 
+@user_module.get('/', 
+            response_model=list[User],
+            # dependencies=[Depends(RoleChecker(['admin']))]
+            )
+async def read_all_user( skip: int = 0, limit: int = 100):
+    return await user_functions.read_all_user()
 
 # # get user by id 
 # @user_module.get('/{user_id}', 

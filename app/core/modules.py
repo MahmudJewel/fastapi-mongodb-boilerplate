@@ -4,12 +4,9 @@ from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 
-# sqlalchemy
-# from sqladmin import Admin, ModelView
-
 # import 
 # from app.core.database import engine
-from app.core.database import user_collection
+# from app.core.database import user_collection
 # from app.models.admin import UserAdmin
 from app.api.routers.api import router
 from app.core.settings import config
@@ -17,19 +14,10 @@ from app.core.settings import config
 def init_routers(app_: FastAPI) -> None:
     # url path 
     app_.include_router(router)
-    # admin = Admin(app_, engine)
-    # if config.ENVIRONMENT == "production":
-    #     pass
-    # else:
-    # 	admin.add_view(UserAdmin)
 
 
 origins = [
-    "*",
-	# "http://localhost.tiangolo.com",
-	# "https://localhost.tiangolo.com",
-	# "http://localhost",
-	# "http://localhost:8080",
+    "*"
 ]
 
 def make_middleware() -> List[Middleware]:
@@ -41,7 +29,6 @@ def make_middleware() -> List[Middleware]:
             allow_methods=["*"],
             allow_headers=["*"],
         ),
-        # Middleware(SQLAlchemyMiddleware),
     ]
     return middleware
 

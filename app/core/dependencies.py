@@ -1,15 +1,15 @@
-# from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer
 
-# from app.core.database import SessionLocal
+# from app.core.database import init
 
 # # db connection
 # def get_db():
-# 	db = SessionLocal()
+# 	db = init()
 # 	try:
 # 		yield db
 # 	finally:
 # 		db.close()
 
-# # authorization 
+# authorization 
 # oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 

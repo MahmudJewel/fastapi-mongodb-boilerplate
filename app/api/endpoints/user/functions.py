@@ -5,16 +5,16 @@
 # # from sqlalchemy.orm import Session
 
 # # from auth import models, schemas
-# from passlib.context import CryptContext
+from passlib.context import CryptContext
 # from jose import JWTError, jwt
 
 # # import 
-# from app.models import user as UserModel
-# from app.schemas.user import UserCreate, UserUpdate
+from app.models import user as UserModel
+from app.schemas.user import UserCreate, UserUpdate
 # from app.core.settings import SECRET_KEY, ALGORITHM
 # from app.core.dependencies import get_db, oauth2_scheme
 
-# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # # get user by email 
 # def get_user_by_email(db: Session, email: str):
@@ -27,19 +27,23 @@
 #         raise HTTPException(status_code=404, detail="User not found")
 #     return db_user
 
-# # crete new user 
-# def create_new_user(db: Session, user: UserCreate):
-#     hashed_password = pwd_context.hash(user.password)
-#     new_user = UserModel.User(email=user.email, password=hashed_password, first_name=user.first_name, last_name=user.last_name)
-#     db.add(new_user)
-#     db.commit()
-#     db.refresh(new_user)
-#     return new_user
+# crete new user 
+def create_new_user(user: UserCreate):
+    hashed_password = pwd_context.hash(user.password)
+    new_user = UserModel.User(email=user.email, password=hashed_password, first_name=user.first_name, last_name=user.last_name)
+    # user_doc = User(**user.model_dump())
+    # await user_doc.insert()
+    return user
+    # db.add(new_user)
+    # db.commit()
+    # db.refresh(new_user)
+    # return new_user
 
 
-# # get all user 
-# def read_all_user(db: Session, skip: int, limit: int):
-#     return db.query(UserModel.User).offset(skip).limit(limit).all()
+# get all user 
+async def read_all_user():
+    users = await UserModel.User.find_all().to_list()
+    return users
 
 # # update user
 # def update_user(db: Session, user_id: int, user: UserUpdate):

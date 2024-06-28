@@ -10,3 +10,4 @@ pydantic_settings
 beanie
 motor
 python-dotenv
+passlib
