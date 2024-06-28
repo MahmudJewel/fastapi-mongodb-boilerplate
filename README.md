@@ -1,5 +1,5 @@
 # FastAPI Production Kit
-A production based FastAPI template
+A production based FastAPI and MongoDB template
 <p>
     <a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
         <img src="https://img.shields.io/github/forks/MahmudJewel/fastapi-production-kit.svg?style=social&label=Fork" />
@@ -129,8 +129,6 @@ Once `pip` has finished downloading the dependencies:
 | *6* | *PATCH* | ```/users/{user_id}``` | _Update the user partially_|_email, password, is_active, role_|
 | *7* | *DELETE* | ```/users/{user_id}``` | _Delete the user_|_None_|
 | *8* | *GET* | ```/``` | _Home page_|_None_|
-| *9* | *GET* | ```/admin``` | _Admin Dashboard_|_None_|
-
 
 # Tools
 ### Back-end
