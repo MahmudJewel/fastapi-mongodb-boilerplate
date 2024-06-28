@@ -29,13 +29,13 @@ async def create_new_user(user: UserCreate):
 async def read_all_user( skip: int = 0, limit: int = 100):
     return await user_functions.read_all_user()
 
-# # get user by id 
-# @user_module.get('/{user_id}', 
-#             response_model=User,
-#             # dependencies=[Depends(RoleChecker(['admin']))]
-#             )
-# async def read_user_by_id( user_id: str, db: Session = Depends(get_db)):
-#     return user_functions.get_user_by_id(db, user_id)
+# get user by id 
+@user_module.get('/{user_id}', 
+            response_model=User,
+            # dependencies=[Depends(RoleChecker(['admin']))]
+            )
+async def read_user_by_id( user_id: str):
+    return await user_functions.get_user_by_id(user_id)
 
 # # update user
 # @user_module.patch('/{user_id}', 

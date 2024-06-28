@@ -1,4 +1,4 @@
-# from fastapi import HTTPException, status, Depends
+from fastapi import HTTPException, status, Depends
 # from typing import Annotated
 # from datetime import datetime, timedelta, timezone
 
@@ -21,12 +21,12 @@ async def get_user_by_email(email: str):
     # UserModel.User.find_one(UserModel.User.email == email)
     return UserModel.User.find_one(UserModel.User.email == email)
 
-# # get user by id
-# def get_user_by_id(db: Session, user_id: int):
-#     db_user = db.query(UserModel.User).filter(UserModel.User.id == user_id).first()
-#     if db_user is None:
-#         raise HTTPException(status_code=404, detail="User not found")
-#     return db_user
+# get user by id
+def get_user_by_id(user_id: str):
+    db_user = UserModel.User.find_one(UserModel.User.id == user_id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_user
 
 # crete new user 
 async def create_new_user(user: UserCreate):
