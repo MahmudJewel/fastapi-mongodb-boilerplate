@@ -12,7 +12,7 @@ from jose import JWTError, jwt
 from app.models import user as UserModel
 from app.schemas.user import UserCreate, UserUpdate, User
 from app.core.settings import SECRET_KEY, ALGORITHM
-# from app.core.dependencies import get_db, oauth2_scheme
+from app.core.dependencies import oauth2_scheme
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -68,11 +68,11 @@ def verify_password(plain_password, hashed_password):
 
 async def authenticate_user(user: UserCreate):
     member = await get_user_by_email(email=user.email)
-    print("authenticate_user ======>", member, member.email)
-    # if not member:
-    #     return False
-    # if not verify_password(user.password, member.password):
-    #     return False
+    # print("authenticate_user ======>", member, member.email)
+    if not member:
+        return False
+    if not verify_password(user.password, member.password):
+        return False
     return member
 
 async def create_access_token(data: dict, expires_delta: timedelta | None = None):
@@ -85,23 +85,23 @@ async def create_access_token(data: dict, expires_delta: timedelta | None = None
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-# # get current users info 
-# def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotated[Session, Depends(get_db)]):
-#     credentials_exception = HTTPException(
-#         status_code=status.HTTP_401_UNAUTHORIZED,
-#         detail="Invalid authentication credentials",
-#         headers={"WWW-Authenticate": "Bearer"},
-#     )
-#     try:
-#         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-#         # print(f"Payload =====> {payload}")
-#         current_email: str = payload.get("email")
-#         if current_email is None:
-#             raise credentials_exception
-#         user = get_user_by_email(db, current_email)
-#         if user is None:
-#             raise credentials_exception
-#         return user
-#     except JWTError:
-#         raise credentials_exception
+# get current users info 
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid authentication credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        # print(f"Payload =====> {payload}")
+        current_email: str = payload.get("email")
+        if current_email is None:
+            raise credentials_exception
+        user = await get_user_by_email( current_email)
+        if user is None:
+            raise credentials_exception
+        return user
+    except JWTError:
+        raise credentials_exception
 

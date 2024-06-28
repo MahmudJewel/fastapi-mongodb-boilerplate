@@ -1,14 +1,10 @@
 # # fastapi 
 from fastapi import APIRouter, Depends, HTTPException, status
-# from typing import Annotated
+from typing import Annotated
 from datetime import timedelta
-
-# # sqlalchemy
-# from sqlalchemy.orm import Session
 
 # # import
 from app.schemas.user import User, UserLogin, Token
-# from app.core.dependencies import get_db
 from app.core.settings import ACCESS_TOKEN_EXPIRE_MINUTES
 from app.api.endpoints.user import functions as user_functions
 
@@ -36,7 +32,7 @@ async def login_for_access_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-# # get curren user 
-# @auth_module.get('/users/me/', response_model= User)
-# async def read_current_user( current_user: Annotated[User, Depends(user_functions.get_current_user)]):
-#     return current_user
+# get curren user 
+@auth_module.get('/users/me/', response_model= User)
+async def read_current_user( current_user: Annotated[User, Depends(user_functions.get_current_user)]):
+    return current_user
