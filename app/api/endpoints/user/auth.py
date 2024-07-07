@@ -42,22 +42,6 @@ async def login_for_access_token(
 async def refresh_access_token(refresh_token: str):
     token = await user_functions.refresh_access_token(refresh_token)
     return token
-    # try:
-    #     payload = jwt.decode(refresh_token, REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
-    #     user_id: str = payload.get("id")
-    #     if user_id is None:
-    #         raise HTTPException(status_code=401, detail="Invalid refresh token")
-    #     member = await User.get(user_id)
-    #     if member is None:
-    #         raise HTTPException(status_code=401, detail="Invalid refresh token")
-    #     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    #     access_token = await create_access_token(
-    #         data={"id": member.id, "email": member.email, "role": member.role},
-    #         expires_delta=access_token_expires
-    #     )
-    #     return Token(access_token=access_token, refresh_token=refresh_token, token_type="bearer")
-    # except JWTError:
-    #     raise HTTPException(status_code=401, detail="Invalid refresh token")
 
 # get curren user 
 @auth_module.get('/users/me/', response_model= User)
