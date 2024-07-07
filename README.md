@@ -18,17 +18,16 @@ I have used Beanie ODM for MongoDB database model with FastAPI.
     Click here to download/fork the repository
 </a>
 
-<!-- ## Features:
+## Features:
 * FastAPI project structure tree
 * user module
     - id, first name, last name, **email** as username, **password**, role, is_active created_at, updated_at 
-* admin dashboard => sqladmin
+* RBAC implementation
 * authentication => JWT
-* db migration => alembic
 * middleware
 * three types of server
     - production, development, test
-* UUID as primary key -->
+* UUID as primary key
 
 ## User module's API
 | SRL | METHOD | ROUTE | FUNCTIONALITY | Fields | Access | 
