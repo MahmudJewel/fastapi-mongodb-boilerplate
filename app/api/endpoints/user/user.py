@@ -1,11 +1,14 @@
 # fastapi 
 from fastapi import APIRouter, Depends, HTTPException
+import logging
 
 # import 
 from app.schemas.user import User, UserCreate, UserUpdate
 from app.api.endpoints.user import functions as user_functions
 from app.models import user as UserModel
 from app.core.rolechecker import RoleChecker
+
+logger = logging.getLogger(__name__)
 
 user_module = APIRouter()
 
@@ -28,6 +31,7 @@ async def create_new_user(user: UserCreate):
             dependencies=[Depends(RoleChecker(['admin']))]
             )
 async def read_all_user( skip: int = 0, limit: int = 100):
+    logger.info(f"============> Getting users with skip: {skip}, limit: {limit}")
     return await user_functions.read_all_user()
 
 # get user by id 
