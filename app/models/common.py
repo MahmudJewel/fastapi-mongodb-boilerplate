@@ -20,7 +20,7 @@ class CommonModel(Document):
         return super().save(**kwargs)
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 
