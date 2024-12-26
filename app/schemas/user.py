@@ -47,6 +47,8 @@
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
+from beanie import PydanticObjectId
+
 from app.models.user import UserRole
 
 class UserBase(BaseModel):
@@ -61,7 +63,7 @@ class UserLogin(UserBase):
     password: str
 
 class User(UserBase):
-    # id: str
+    id: PydanticObjectId
     first_name: Optional[str]
     last_name: Optional[str]
     is_active: bool

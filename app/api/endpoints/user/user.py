@@ -1,6 +1,7 @@
 # fastapi 
 from fastapi import APIRouter, Depends, HTTPException
 import logging
+from beanie import PydanticObjectId
 
 # import 
 from app.schemas.user import User, UserCreate, UserUpdate
@@ -39,7 +40,7 @@ async def read_all_user( skip: int = 0, limit: int = 100):
             response_model=User,
             dependencies=[Depends(RoleChecker(['admin', 'user']))]
             )
-async def read_user_by_id( user_id: str):
+async def read_user_by_id( user_id: PydanticObjectId):
     return await user_functions.get_user_by_id(user_id)
 
 # update user
@@ -47,7 +48,7 @@ async def read_user_by_id( user_id: str):
               response_model=User,
               dependencies=[Depends(RoleChecker(['admin']))]
               )
-async def update_user( user_id: str, user: UserUpdate):
+async def update_user( user_id: PydanticObjectId, user: UserUpdate):
     print(f"Received data: {user.model_dump()}")
     return await user_functions.update_user(user_id, user)
 
@@ -56,7 +57,7 @@ async def update_user( user_id: str, user: UserUpdate):
             #    response_model=User,
                dependencies=[Depends(RoleChecker(['admin']))]
                )
-async def delete_user( user_id: str):
+async def delete_user( user_id: PydanticObjectId):
     deleted_user = await user_functions.delete_user(user_id)
     return deleted_user
 

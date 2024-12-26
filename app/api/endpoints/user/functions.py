@@ -1,6 +1,7 @@
 from fastapi import HTTPException, status, Depends
 from typing import Annotated
 from datetime import datetime, timedelta, timezone
+from beanie import PydanticObjectId
 
 from passlib.context import CryptContext
 from jose import JWTError, jwt
@@ -19,7 +20,7 @@ async def get_user_by_email(email: str):
     return await UserModel.User.find_one(UserModel.User.email == email)
 
 # get user by id
-async def get_user_by_id(user_id: str):
+async def get_user_by_id(user_id: PydanticObjectId):
     db_user = await UserModel.User.find_one(UserModel.User.id == user_id)
     # print('==========================>', db_user)
     if db_user is None:
@@ -42,7 +43,7 @@ async def read_all_user():
     return users
 
 # update user
-async def update_user(user_id: str, user: UserUpdate):
+async def update_user(user_id: PydanticObjectId, user: UserUpdate):
     db_user = await get_user_by_id(user_id)
     updated_data = user.model_dump(exclude_unset=True) # partial update
     for key, value in updated_data.items():
@@ -51,7 +52,7 @@ async def update_user(user_id: str, user: UserUpdate):
     return db_user
 
 # delete user
-async def delete_user(user_id: str):
+async def delete_user(user_id: PydanticObjectId):
     db_user = await get_user_by_id( user_id)
     await db_user.delete()
     return {"msg": f"{db_user.email} deleted successfully"}
