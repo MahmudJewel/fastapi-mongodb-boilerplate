@@ -61,7 +61,7 @@ class UserLogin(UserBase):
     password: str
 
 class User(UserBase):
-    id: str
+    # id: str
     first_name: Optional[str]
     last_name: Optional[str]
     is_active: bool
