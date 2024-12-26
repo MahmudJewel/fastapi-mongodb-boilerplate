@@ -5,13 +5,12 @@ from datetime import datetime, timedelta, timezone
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 
-# # import 
+# import 
 from app.models import user as UserModel
-from app.schemas.user import UserCreate, UserUpdate, User
+from app.schemas.user import UserCreate, UserUpdate, User, Token
 from app.core.settings import SECRET_KEY, REFRESH_SECRET_KEY, ALGORITHM
 from app.core.dependencies import oauth2_scheme
 from app.core.settings import ACCESS_TOKEN_EXPIRE_MINUTES
-from app.schemas.user import Token
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

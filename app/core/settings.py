@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MONGODB_URL = os.getenv('MONGODB_URL')
+ClUSTER_NAME = os.getenv('ClUSTER_NAME')
 
 SECRET_KEY = "4f400364dc36a8bd1895874efe0b7469f29e7ed863ec903c5f10d8e82dc7c4d9"
 REFRESH_SECRET_KEY="2bbed1f1b49f306ca855027cd0a94c421805c91a244d6cb75298c4c850e0f8cf"

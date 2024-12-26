@@ -17,4 +17,5 @@ class User(CommonModel):
     role: UserRole = Field(default=UserRole.user)
 
     class Settings:
-        collection = "users"
+        name = "users"
+
