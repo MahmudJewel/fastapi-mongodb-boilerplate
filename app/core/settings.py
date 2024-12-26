@@ -1,7 +1,9 @@
-from pydantic_settings import BaseSettings
-from enum import Enum 
 import os
+import logging
+from enum import Enum 
 from dotenv import load_dotenv
+from pydantic_settings import BaseSettings
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -14,6 +16,11 @@ REFRESH_SECRET_KEY="2bbed1f1b49f306ca855027cd0a94c421805c91a244d6cb75298c4c850e0
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60*24*1 #( 1 days )
 REFRESH_TOKEN_EXPIRE_DAYS = 7 #( days )
+
+# Set up basic logging
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 class EnvironmentType(str, Enum):
     DEVELOPMENT = "development"
