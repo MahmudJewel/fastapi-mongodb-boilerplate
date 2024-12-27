@@ -54,7 +54,7 @@ I have used Beanie ODM for MongoDB database model with FastAPI.
 │   │   │       └── user.py
 │   │   ├── __init__.py
 │   │   └── routers     # Contains FastAPI routers, where each router corresponds to a feature.
-│   │       ├── api.py
+│   │       ├── main_router.py
 │   │       ├── __init__.py
 │   │       └── user.py
 │   ├── core    # Contains core functionality like database management, dependencies, etc. 
