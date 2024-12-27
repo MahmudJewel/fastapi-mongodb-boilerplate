@@ -17,14 +17,15 @@ user_module = APIRouter()
 # async def read_auth_page():
 #     return {"msg": "Auth page Initialization done"}
 
-@user_module.post('/', response_model=User)
+@user_module.post('/')
 async def create_new_user(user: UserCreate):
     existing_user = await user_functions.get_user_by_email(user.email)
     if existing_user:
         raise HTTPException(status_code=400, detail="User already exists")
     
     new_user = await user_functions.create_new_user(user)
-    return new_user
+    result = new_user.model_dump(exclude="password")
+    return {"message": f"New user created", "data": result}
 
 # get all user 
 @user_module.get('/', 
