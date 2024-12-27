@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 import logging
 from beanie import PydanticObjectId
+from typing import Annotated
 
 # import 
 from app.schemas.user import User, UserCreate, UserUpdate
@@ -38,11 +39,16 @@ async def read_all_user( skip: int = 0, limit: int = 100):
 
 # get user by id 
 @user_module.get('/{user_id}', 
-            response_model=User,
+            # response_model=User,
             dependencies=[Depends(RoleChecker(['admin', 'user']))]
             )
-async def read_user_by_id( user_id: PydanticObjectId):
-    return await user_functions.get_user_by_id(user_id)
+async def read_user_by_id( user_id: PydanticObjectId, current_user: User = Depends(user_functions.get_current_user)):
+    # logger.info(f"=======> {current_user.role.value}")
+    if current_user.id == user_id or current_user.role.value == 'admin':
+        user_info = await user_functions.get_user_by_id(user_id)
+        result = user_info.model_dump(exclude="password")
+        return result
+    return {"message": "You are not allowed to see this user info"}
 
 # update user
 @user_module.patch('/{user_id}', 
