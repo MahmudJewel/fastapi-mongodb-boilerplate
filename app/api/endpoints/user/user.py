@@ -52,12 +52,20 @@ async def read_user_by_id( user_id: PydanticObjectId, current_user: User = Depen
 
 # update user
 @user_module.patch('/{user_id}', 
-              response_model=User,
-              dependencies=[Depends(RoleChecker(['admin']))]
+            #   response_model=User,
+              dependencies=[Depends(RoleChecker(['admin', 'user']))]
               )
-async def update_user( user_id: PydanticObjectId, user: UserUpdate):
+async def update_user( 
+        user_id: PydanticObjectId, 
+        user: UserUpdate,
+        current_user: User = Depends(user_functions.get_current_user)
+    ):
     print(f"Received data: {user.model_dump()}")
-    return await user_functions.update_user(user_id, user)
+    if current_user.id == user_id or current_user.role.value == 'admin':
+        updated_user_info = await user_functions.update_user(user_id, user)
+        result = updated_user_info.model_dump(exclude="password")
+        return {"message": f"User info updated successfully", "data": result}
+    return {"message": "You are not allowed to update this user info"}
 
 # delete user
 @user_module.delete('/{user_id}', 
