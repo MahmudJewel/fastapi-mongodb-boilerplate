@@ -49,7 +49,7 @@ from datetime import datetime
 from typing import Optional
 from beanie import PydanticObjectId
 
-from app.models.user import UserRole
+from app.utils.constant.globals import UserRole
 
 class UserBase(BaseModel):
     email: str
