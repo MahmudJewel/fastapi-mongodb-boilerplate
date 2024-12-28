@@ -5,7 +5,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 import logging
 
-from app.core.settings import MONGODB_URL, ClUSTER_NAME
+from app.utils.env import MONGODB_URL, ClUSTER_NAME
 from app.models import user as UserModel
 
 logger = logging.getLogger(__name__)
