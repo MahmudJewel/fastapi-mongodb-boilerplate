@@ -17,3 +17,4 @@ class User(CommonModel):
     class Settings:
         name = "users"
 
+
