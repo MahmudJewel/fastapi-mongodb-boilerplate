@@ -98,12 +98,12 @@ I have used Beanie ODM for MongoDB database model with FastAPI.
 # Setup
 1. The first thing to do is to clone the repository:
 ```sh
-$ https://github.com/MahmudJewel/FastAPI-MongoDB-Template
+$ https://github.com/MahmudJewel/fastapi-mongodb-boilerplate
 ```
 
 2. Create a virtual environment to install dependencies in and activate it:
 ```sh
-$ cd fastapi-booking-module
+$ cd fastapi-mongodb-boilerplate
 $ python -m venv venv
 $ source venv/bin/activate
 ```
@@ -118,7 +118,9 @@ session operates in a virtual environment set up by `venv`.
 4. Now rename **.env.example** to **.env** and give the information on the .env file.
 5. Then Run the project
 ```sh
-(venv)$ uvicorn app.main:app --reload
+(venv)$ fastapi dev app/main.py # using fastapi CLI ==> after version 0.100.0 
+# =======> OR
+(venv)$ uvicorn app.main:app --reload # using directly uvicorn ==> old one => before version 0.100.0 
 ```
 
 
@@ -139,6 +141,17 @@ session operates in a virtual environment set up by `venv`.
     python-jose
     python-dotenv
     google-auth
+
+### How do I migrate db?
+
+- Create a migration script inside the /migrations/migrations_scripts/
+- Activate virtual environment
+- Go to migration_runner folder(cd migrations/migration_runner)
+    ```python
+    python migration_runner.py --all  # it will execute all migrations
+    python migration_runner.py script_name  # it will execute the one specified script
+    ```
+migration will be applied and kept track to the db under migration collections.
 
 ### Happy Coding
 

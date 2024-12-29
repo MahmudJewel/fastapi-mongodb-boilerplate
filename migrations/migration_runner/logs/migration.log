@@ -5,3 +5,8 @@
 =====> Total documents not updated: 6
 2024-12-30 01:38:29,862 - __main__ - INFO - Successfully applied migration 0_sample in 0:00:00.001101
 2024-12-30 01:38:29,862 - __main__ - INFO - Migration process completed
+2024-12-30 01:51:19,257 - __main__ - INFO - Sys.path updated with: /run/media/mahmud/Data/project/FastAPI/fastapi-production-kit-mongodb
+2024-12-30 01:51:47,549 - __main__ - INFO - Sys.path updated with: /run/media/mahmud/Data/project/FastAPI/fastapi-production-kit-mongodb
+2024-12-30 01:51:47,554 - __main__ - INFO - Applying migration: 0_sample
+2024-12-30 01:51:47,560 - __main__ - INFO - Migration 0_sample has already been applied. Skipping.
+2024-12-30 01:51:47,560 - __main__ - INFO - Migration process completed
