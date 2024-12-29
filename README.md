@@ -151,7 +151,8 @@ session operates in a virtual environment set up by `venv`.
     python migration_runner.py --all  # it will execute all migrations
     python migration_runner.py script_name  # it will execute the one specified script
     ```
-migration will be applied and kept track to the db under migration collections.
+- Migration will be applied and kept track to the db under migrations collections.
+- Migration logs will be found mingrations/logs/migration.log
 
 ### Happy Coding
 
