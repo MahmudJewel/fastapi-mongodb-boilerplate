@@ -5,7 +5,7 @@ from datetime import timedelta
 
 # # import
 from app.schemas.user import User, UserLogin, Token
-from app.core.settings import ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
+from app.utils.env import ACCESS_TOKEN_EXPIRE_DAYS, REFRESH_TOKEN_EXPIRE_DAYS
 from app.api.endpoints.user import functions as user_functions
 
 
@@ -25,15 +25,15 @@ async def login_for_access_token(
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
     access_token = await user_functions.create_access_token(
-        data={"id": member.id, "email": member.email, "role": member.role}, 
+        data={"id": str(member.id), "email": member.email, "role": member.role}, 
         expires_delta=access_token_expires
     )
 
     refresh_token_expires = timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
     refresh_token = await user_functions.create_refresh_token(
-        data={"id": member.id, "email": member.email, "role": member.role}, 
+        data={"id": str(member.id), "email": member.email, "role": member.role}, 
         expires_delta=refresh_token_expires
     )
     return Token(access_token=access_token, refresh_token=refresh_token, token_type="bearer")

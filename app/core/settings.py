@@ -1,18 +1,14 @@
-from pydantic_settings import BaseSettings
-from enum import Enum 
 import os
-from dotenv import load_dotenv
+import logging
+from enum import Enum 
+from pydantic_settings import BaseSettings
 
-# Load environment variables from .env file
-load_dotenv()
+from app.utils.env import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_DAYS
 
-MONGODB_URL = os.getenv('MONGODB_URL')
-
-SECRET_KEY = "4f400364dc36a8bd1895874efe0b7469f29e7ed863ec903c5f10d8e82dc7c4d9"
-REFRESH_SECRET_KEY="2bbed1f1b49f306ca855027cd0a94c421805c91a244d6cb75298c4c850e0f8cf"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60*24*1 #( 1 days )
-REFRESH_TOKEN_EXPIRE_DAYS = 7 #( days )
+# Set up basic logging
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 class EnvironmentType(str, Enum):
     DEVELOPMENT = "development"
@@ -34,7 +30,7 @@ class Config(BaseConfig):
     SHOW_SQL_ALCHEMY_QUERIES: int = 0
     SECRET_KEY: str = SECRET_KEY
     ALGORITHM: str = ALGORITHM
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = ACCESS_TOKEN_EXPIRE_MINUTES
+    ACCESS_TOKEN_EXPIRE_DAYS: int = ACCESS_TOKEN_EXPIRE_DAYS
     # CELERY_BROKER_URL: str = "amqp://rabbit:password@localhost:5672"
     # CELERY_BACKEND_URL: str = "redis://localhost:6379/0"
 

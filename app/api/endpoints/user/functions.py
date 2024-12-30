@@ -1,17 +1,17 @@
 from fastapi import HTTPException, status, Depends
 from typing import Annotated
 from datetime import datetime, timedelta, timezone
+from beanie import PydanticObjectId
 
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 
-# # import 
+# import 
 from app.models import user as UserModel
-from app.schemas.user import UserCreate, UserUpdate, User
-from app.core.settings import SECRET_KEY, REFRESH_SECRET_KEY, ALGORITHM
+from app.schemas.user import UserCreate, UserUpdate, User, Token 
+from app.utils.env import SECRET_KEY, REFRESH_SECRET_KEY, ALGORITHM
 from app.core.dependencies import oauth2_scheme
-from app.core.settings import ACCESS_TOKEN_EXPIRE_MINUTES
-from app.schemas.user import Token
+from app.core.settings import ACCESS_TOKEN_EXPIRE_DAYS
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -20,7 +20,7 @@ async def get_user_by_email(email: str):
     return await UserModel.User.find_one(UserModel.User.email == email)
 
 # get user by id
-async def get_user_by_id(user_id: str):
+async def get_user_by_id(user_id: PydanticObjectId):
     db_user = await UserModel.User.find_one(UserModel.User.id == user_id)
     # print('==========================>', db_user)
     if db_user is None:
@@ -43,7 +43,7 @@ async def read_all_user():
     return users
 
 # update user
-async def update_user(user_id: str, user: UserUpdate):
+async def update_user(user_id: PydanticObjectId, user: UserUpdate):
     db_user = await get_user_by_id(user_id)
     updated_data = user.model_dump(exclude_unset=True) # partial update
     for key, value in updated_data.items():
@@ -52,7 +52,7 @@ async def update_user(user_id: str, user: UserUpdate):
     return db_user
 
 # delete user
-async def delete_user(user_id: str):
+async def delete_user(user_id: PydanticObjectId):
     db_user = await get_user_by_id( user_id)
     await db_user.delete()
     return {"msg": f"{db_user.email} deleted successfully"}
@@ -100,7 +100,7 @@ async def refresh_access_token(refresh_token: str):
         member = await get_user_by_id(user_id)
         if member is None:
             raise HTTPException(status_code=401, detail="Invalid refresh token")
-        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token_expires = timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
         access_token = await create_access_token(
             data={"id": member.id, "email": member.email, "role": member.role},
             expires_delta=access_token_expires

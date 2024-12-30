@@ -47,7 +47,9 @@
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
-from app.models.user import UserRole
+from beanie import PydanticObjectId
+
+from app.utils.constant.globals import UserRole
 
 class UserBase(BaseModel):
     email: str
@@ -61,7 +63,7 @@ class UserLogin(UserBase):
     password: str
 
 class User(UserBase):
-    id: str
+    id: PydanticObjectId
     first_name: Optional[str]
     last_name: Optional[str]
     is_active: bool
@@ -70,7 +72,7 @@ class User(UserBase):
     updated_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UserUpdate(BaseModel):
     first_name: Optional[str] = None

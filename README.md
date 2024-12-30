@@ -37,8 +37,8 @@ I have used Beanie ODM for MongoDB database model with FastAPI.
 | *3* | *POST* | ```/users/``` | _Create new user_|_**email**, **password**, first name, last name_| _Anyone_|
 | *4* | *GET* | ```/users/``` | _Get all users list_|_email, password, first name, last name, role, is_active, created_at, updated_at, id_|_Admin_|
 | *5* | *GET* | ```/users/me/``` | _Get current user details_|_email, password, first name, last name, role, is_active, created_at, updated_at, id_|_Any User_|
-| *6* | *GET* | ```/users/{user_id}``` | _Get indivisual users details_|_email, password, first name, last name, role, is_active, created_at, updated_at, id_|_Any User_|
-| *7* | *PATCH* | ```/users/{user_id}``` | _Update the user partially_|_email, password, is_active, role_|_Admin_|
+| *6* | *GET* | ```/users/{user_id}``` | _Get indivisual users details_|_email, password, first name, last name, role, is_active, created_at, updated_at, id_|_Admin or owner_|
+| *7* | *PATCH* | ```/users/{user_id}``` | _Update the user partially_|_email, password, is_active, role_|_Admin or owner_|
 | *8* | *DELETE* | ```/users/{user_id}``` | _Delete the user_|_None_|_Admin_|
 
 ## Project Structure
@@ -54,7 +54,7 @@ I have used Beanie ODM for MongoDB database model with FastAPI.
 │   │   │       └── user.py
 │   │   ├── __init__.py
 │   │   └── routers     # Contains FastAPI routers, where each router corresponds to a feature.
-│   │       ├── api.py
+│   │       ├── main_router.py
 │   │       ├── __init__.py
 │   │       └── user.py
 │   ├── core    # Contains core functionality like database management, dependencies, etc. 
@@ -98,12 +98,12 @@ I have used Beanie ODM for MongoDB database model with FastAPI.
 # Setup
 1. The first thing to do is to clone the repository:
 ```sh
-$ https://github.com/MahmudJewel/FastAPI-MongoDB-Template
+$ https://github.com/MahmudJewel/fastapi-mongodb-boilerplate
 ```
 
 2. Create a virtual environment to install dependencies in and activate it:
 ```sh
-$ cd fastapi-booking-module
+$ cd fastapi-mongodb-boilerplate
 $ python -m venv venv
 $ source venv/bin/activate
 ```
@@ -118,7 +118,9 @@ session operates in a virtual environment set up by `venv`.
 4. Now rename **.env.example** to **.env** and give the information on the .env file.
 5. Then Run the project
 ```sh
-(venv)$ uvicorn app.main:app --reload
+(venv)$ fastapi dev app/main.py # using fastapi CLI ==> after version 0.100.0 
+# =======> OR
+(venv)$ uvicorn app.main:app --reload # using directly uvicorn ==> old one => before version 0.100.0 
 ```
 
 
@@ -139,6 +141,18 @@ session operates in a virtual environment set up by `venv`.
     python-jose
     python-dotenv
     google-auth
+
+### How do I migrate db?
+
+- Create a migration script inside the /migrations/migrations_scripts/
+- Activate virtual environment
+- Go to migration_runner folder(cd migrations/migration_runner)
+    ```python
+    python migration_runner.py --all  # it will execute all migrations
+    python migration_runner.py script_name  # it will execute the one specified script
+    ```
+- Migration will be applied and kept track to the db under migrations collections.
+- Migration logs will be found mingrations/logs/migration.log
 
 ### Happy Coding
 
