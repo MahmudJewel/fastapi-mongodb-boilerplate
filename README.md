@@ -148,6 +148,7 @@ session operates in a virtual environment set up by `venv`.
 - Activate virtual environment
 - Go to migration_runner folder(cd migrations/migration_runner)
     ```python
+    cd migrations/migration_runner
     python migration_runner.py --all  # it will execute all migrations
     python migration_runner.py script_name  # it will execute the one specified script
     ```
