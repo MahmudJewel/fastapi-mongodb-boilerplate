@@ -5,6 +5,8 @@ bcrypt
 click
 ecdsa
 fastapi
+fastapi-cli
+fastapi-cloud-cli
 greenlet
 h11
 idna
@@ -27,3 +29,6 @@ typing_extensions
 uvicorn
 WTForms
 pydantic_settings
+beanie
+motor
+fastapi[standard]
