@@ -27,3 +27,5 @@ typing_extensions
 uvicorn
 WTForms
 pydantic_settings
+beanie
+motor
