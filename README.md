@@ -155,5 +155,63 @@ session operates in a virtual environment set up by `venv`.
 - Migration will be applied and kept track to the db under migrations collections.
 - Migration logs will be found mingrations/logs/migration.log
 
+## Integration Tests
+
+This project includes integration tests for user creation flow under `tests/integration/`.
+
+### 1. Install dev dependencies
+
+```sh
+(venv)$ pip install -r requirements.txt
+(venv)$ pip install -r dev.txt
+```
+
+### 2. Prepare MongoDB test database
+
+Tests use MongoDB. By default:
+
+- `TEST_MONGODB_URL=mongodb://localhost:27017`
+- `TEST_DB_NAME=fastapi_mongodb_boilerplate_test`
+
+You can override with environment variables:
+
+```sh
+export TEST_MONGODB_URL="mongodb://localhost:27017"
+export TEST_DB_NAME="fastapi_mongodb_boilerplate_test"
+```
+
+### 3. Run integration tests
+
+```sh
+(venv)$ pytest tests/integration -q
+```
+
+Or use helper script:
+
+```sh
+# run all integration tests
+(venv)$ python scripts/run_integration_tests.py -q
+
+# run single file
+(venv)$ python scripts/run_integration_tests.py test_users -q
+
+# run single test function
+(venv)$ python scripts/run_integration_tests.py "test_users::test_create_user_returns_serialized_id" -q
+
+# same DB (default), objects remain in DB
+(venv)$ python scripts/run_integration_tests.py --db-name fastapi_test -q
+
+# separate DB per run
+(venv)$ python scripts/run_integration_tests.py --db-name fastapi_test --separate-db -q
+```
+
+### Notes
+
+- Tests start FastAPI app with lifespan events, so Beanie startup init runs.
+- Objects created by tests are kept in database (no auto cleanup).
+- Default mode uses same DB name.
+- Optional separate DB mode uses suffix (example: `fastapi_test_a1b2c3d4`).
+- If test MongoDB is not reachable, tests will be skipped.
+
 ### Happy Coding
 

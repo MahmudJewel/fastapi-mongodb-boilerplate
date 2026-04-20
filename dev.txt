@@ -32,3 +32,6 @@ pydantic_settings
 beanie
 motor
 fastapi[standard]
+pytest
+pytest-asyncio
+asgi-lifespan
