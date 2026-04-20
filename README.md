@@ -155,16 +155,10 @@ session operates in a virtual environment set up by `venv`.
 - Migration will be applied and kept track to the db under migrations collections.
 - Migration logs will be found mingrations/logs/migration.log
 
+
 ## Integration Tests
 
 This project includes integration tests for user creation flow under `tests/integration/`.
-
-### 1. Install dev dependencies
-
-```sh
-(venv)$ pip install -r requirements.txt
-(venv)$ pip install -r dev.txt
-```
 
 ### 2. Prepare MongoDB test database
 
