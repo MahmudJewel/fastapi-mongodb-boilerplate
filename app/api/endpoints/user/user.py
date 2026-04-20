@@ -25,7 +25,7 @@ async def create_new_user(user: UserCreate):
         raise HTTPException(status_code=400, detail="User already exists")
     
     new_user = await user_functions.create_new_user(user)
-    result = new_user.model_dump(exclude="password")
+    result = new_user.model_dump(mode="json", exclude="password")
     return {"message": f"New user created", "data": result}
 
 # get all user 
@@ -46,7 +46,7 @@ async def read_user_by_id( user_id: PydanticObjectId, current_user: User = Depen
     # logger.info(f"=======> {current_user.role.value}")
     if current_user.id == user_id or current_user.role.value == 'admin':
         user_info = await user_functions.get_user_by_id(user_id)
-        result = user_info.model_dump(exclude="password")
+        result = user_info.model_dump(mode="json", exclude="password")
         return result
     return {"message": "You are not allowed to see this user info"}
 
@@ -63,7 +63,7 @@ async def update_user(
     print(f"Received data: {user.model_dump()}")
     if current_user.id == user_id or current_user.role.value == 'admin':
         updated_user_info = await user_functions.update_user(user_id, user)
-        result = updated_user_info.model_dump(exclude="password")
+        result = updated_user_info.model_dump(mode="json", exclude="password")
         return {"message": f"User info updated successfully", "data": result}
     return {"message": "You are not allowed to update this user info"}
 
