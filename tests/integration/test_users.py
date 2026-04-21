@@ -1,7 +1,7 @@
 import pytest
 from uuid import uuid4
 
-from app.models.user import User
+from app.models.user_model import User
 
 @pytest.mark.asyncio
 async def test_create_user_returns_serialized_id(client):
