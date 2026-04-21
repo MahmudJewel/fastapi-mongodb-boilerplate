@@ -6,7 +6,7 @@ from beanie import init_beanie
 import logging
 
 from app.utils.env import MONGODB_URL, ClUSTER_NAME
-from app.models import user as UserModel
+from app.models import user_model as UserModel
 
 logger = logging.getLogger(__name__)
 

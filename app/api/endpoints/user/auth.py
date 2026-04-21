@@ -4,9 +4,9 @@ from typing import Annotated
 from datetime import timedelta
 
 # # import
-from app.schemas.user import User, UserLogin, Token
+from app.schemas.user_schema import User, UserLogin, Token
 from app.utils.env import ACCESS_TOKEN_EXPIRE_DAYS, REFRESH_TOKEN_EXPIRE_DAYS
-from app.api.endpoints.user import functions as user_functions
+from app.api.endpoints.user import user_function as user_functions
 
 
 auth_module = APIRouter()
